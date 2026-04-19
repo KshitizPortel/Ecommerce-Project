@@ -1,0 +1,15 @@
+# dependencies
+node_modules/
+
+# output
+demodist/
+build/
+
+# folders:
+src/Approachfirst/
+
+# file
+text.txt 
+
+# environment variables
+.env
