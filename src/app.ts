@@ -5,7 +5,7 @@ import './init.js'
 // import db from './model/index.js'
 import sequelize from './connection/connect.js'
 import userroute from './routes/route.js'
-// import adminseeder from './adminseeder.js'
+import adminseeder from './adminseeder.js'
 const app:Application=express()
 app.use(express.json())
 
@@ -18,7 +18,7 @@ app.use("",userroute)
 
 
 // calling admin seeder
-// adminseeder()
+adminseeder()
 
 app.listen(3000,()=>
 {
