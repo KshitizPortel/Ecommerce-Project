@@ -4,4 +4,4 @@ This is the ecommerce project, with features like adding ,removing and buying pr
 # Day 21 Update:
   - Implemented Authentication and Authorization
   - Created Prodcut table
-  - Restrict acess based on roles.
+  - Restricted product creation  based on roles.
