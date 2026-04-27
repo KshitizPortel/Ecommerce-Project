@@ -1,6 +1,8 @@
 import {Sequelize} from 'Sequelize-typescript'
 import {fileURLToPath} from 'url'
 import path from 'path'
+import User from './models/model.js'
+import Product from './models/Product.js'
 const __filename=fileURLToPath(import.meta.url)
 const __dirname=path.dirname(__filename)
 const sequelize=new Sequelize({
@@ -10,8 +12,11 @@ const sequelize=new Sequelize({
     password:process.env.DB_PASSWORD || '',
     dialect:'mysql',
     port:Number(process.env.DB_PORT),
-    models:[path.join(__dirname,"models")]
+    models:[path.join(__dirname,"models")],
+    // models:[User,Product]
 })
+
+console.log("MODELS:", sequelize.models)
 sequelize.authenticate()
 .then(()=>
 {

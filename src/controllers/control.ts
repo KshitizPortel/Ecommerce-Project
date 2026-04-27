@@ -29,7 +29,7 @@ class AuthenticateUser{
                 password:bcrypt.hashSync(password,8),
                 role:role
             })
-                    res.status(200).json({
+            res.status(200).json({
             "message":"Data received sucessfully"
         })}
 
@@ -66,7 +66,7 @@ class AuthenticateUser{
         }
 
         // Generate token:
-        const jwtdata=jwt.sign({id:data.id},"1234",{
+        const jwtdata=jwt.sign({id:data.id},process.env.SECRET_KEY as string,{
             expiresIn:'10d'
         })
         res.status(200).json({
