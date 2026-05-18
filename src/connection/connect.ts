@@ -5,6 +5,9 @@ import User from './models/model.js'
 import Product from './models/Product.js'
 import Catergory from './models/catergory.js'
 import Cart from './models/cart.js'
+import Payment from './models/payment.js'
+import Orderdetails from './models/orderdetails.js'
+import Order from './models/order.js'
 const __filename=fileURLToPath(import.meta.url)
 const __dirname=path.dirname(__filename)
 const sequelize=new Sequelize({
@@ -50,6 +53,18 @@ Cart.belongsTo(Product,{foreignKey:'Productid'})
 // relation with user table:
 User.hasMany(Cart,{foreignKey:'Userid'})
 Cart.belongsTo(User,{foreignKey:'Userid'})
+
+//  order and  orderdetails
+Order.hasMany(Orderdetails,{foreignKey:'orderId'})
+Orderdetails.belongsTo(Order,{foreignKey:'orderId'})
+
+// orderdetails and product table.
+Product.hasMany(Orderdetails,{foreignKey:'productId'})
+Orderdetails.belongsTo(Product,{foreignKey:'productId'})
+
+// order and payment:
+Payment.hasOne(Order,{foreignKey:'paymentid'})
+Order.belongsTo(Payment,{foreignKey:'paymentid'})
 
 export default sequelize
 

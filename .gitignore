@@ -11,6 +11,8 @@ src/Approachfirst/
 # file
 text.txt 
 githubtext.txt
+README.md
+
 # storage:
 storage/
 # environment variables
