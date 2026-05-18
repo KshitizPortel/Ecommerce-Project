@@ -10,6 +10,8 @@ src/Approachfirst/
 
 # file
 text.txt 
-
+githubtext.txt
+# storage:
+storage/
 # environment variables
 .env

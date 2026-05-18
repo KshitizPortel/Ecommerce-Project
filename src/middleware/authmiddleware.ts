@@ -1,8 +1,7 @@
 import type{Request,Response} from 'express'
 import jwt from 'jsonwebtoken'
 import User from '../connection/models/model.js'
-
-interface authenticateuser extends Request{
+export interface authenticateuser extends Request{
     user?:
     {
         username:string,
@@ -10,9 +9,7 @@ interface authenticateuser extends Request{
         email:string,
         password:string,
         id:string
-    }
-}
-
+    }}
 export enum Role {
     Admin="admin",
     Customer="customer"
@@ -59,7 +56,6 @@ class Authenticateuser
             }
         })
     }
-
     restrictTo(...roles:Role[])
     {
         return(req:authenticateuser,res:Response,next:Function)=>
@@ -78,9 +74,5 @@ class Authenticateuser
             }
             else{
                 next()
-            }
-        }
-    }
-}
-
+            }}}}
 export default new Authenticateuser

@@ -45,10 +45,12 @@ class AuthenticateUser{
             )
             return
         }
-        const [data]= await User.findAll({
+        const data= await User.findOne({
             where:{ 
                 email:email
-            }})
+            },
+            attributes:['id','password']
+        })
         if(!data)
         {
             res.status(404).json({
@@ -56,7 +58,11 @@ class AuthenticateUser{
             })
             return
         }
+        const userresponse={
+            id:data.id
+        }
         const ismatched=bcrypt.compareSync(password,data.password)
+        console.log(data.password,data.id)
         if(!ismatched)
         {
             res.status(404).json({
@@ -71,7 +77,8 @@ class AuthenticateUser{
         })
         res.status(200).json({
             "message":"Use loggedin sucessfully",
-            data:jwtdata
+            data:userresponse,
+            jwtdata:jwtdata
         })
     }}
 export default AuthenticateUser
