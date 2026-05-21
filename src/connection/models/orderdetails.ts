@@ -22,4 +22,5 @@ class Orderdetails extends Model
         declare Quantity:number
 }
 
+
 export default Orderdetails

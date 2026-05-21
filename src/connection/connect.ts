@@ -66,6 +66,9 @@ Orderdetails.belongsTo(Product,{foreignKey:'productId'})
 Payment.hasOne(Order,{foreignKey:'paymentid'})
 Order.belongsTo(Payment,{foreignKey:'paymentid'})
 
+// Order and User:
+User.hasMany(Order,{foreignKey:'userId'})
+Order.belongsTo(User,{foreignKey:'userId'})
 export default sequelize
 
 // console.log(process.env.DB_USERNAME)

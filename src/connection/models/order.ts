@@ -17,7 +17,13 @@ class Order extends Model
 
     @Column({
         type:DataType.STRING,
-        allowNull:false
+        allowNull:false,
+        validate:{
+            len:{
+                args:[10,10],
+                msg:"Phone number must be 10 digits"
+            }
+        }
     })
     declare phonenumber:string
 
@@ -38,7 +44,7 @@ class Order extends Model
         type:DataType.ENUM('pending','cancel','delivered','processing'),
         defaultValue:'pending'
     })
-    declare orderstatus:number
+    declare orderstatus:string
 }
 
 export default Order
