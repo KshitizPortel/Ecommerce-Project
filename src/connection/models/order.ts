@@ -41,7 +41,7 @@ class Order extends Model
 
     
     @Column({
-        type:DataType.ENUM('pending','cancel','delivered','processing'),
+        type:DataType.ENUM('pending','cancel','delivered','processing','on the way'),
         defaultValue:'pending'
     })
     declare orderstatus:string

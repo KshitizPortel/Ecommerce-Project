@@ -3,9 +3,13 @@ import type{authenticateuser} from '../middleware/authmiddleware.js'
 import type{OrderData} from '../types/orderdetails.js'
 import {PaymentMethod} from '../types/orderdetails.js'
 import type{Khalti} from '../types/orderdetails.js'
+import type{verifytransactions} from '../types/orderdetails.js'
+import {Status} from '../types/orderdetails.js'
+import {Orderstatus} from '../types/orderdetails.js'
 import Order from '../connection/models/order.js'
 import Orderdetails from '../connection/models/orderdetails.js'
 import Payment from '../connection/models/payment.js'
+import Product from '../connection/models/Product.js'
 import axios from 'axios'
 class Ordercontroller
 {
@@ -73,6 +77,133 @@ class Ordercontroller
         }
 
     }
-}
+// to be done again from here,
+    async verifytransaction(req:authenticateuser,res:Response):Promise<void>
+    {
+        const uid=req.user?.id
+        const {pidx}=req.body
+        if(!pidx)
+        {
+            res.status(400).json({
+                "message":"Please provide credentials"
+            })
+            return
+        }
+        const response=await axios.post("https://dev.khalti.com/api/v2/epayment/lookup/",{pidx},{
+            headers:{
+                'Authorization':`key ${process.env.KHALTI_SCERET_KEY}`
+            }
+        })
+        console.log(response)
+        const verifyresponse:verifytransactions=response.data
+        if(verifyresponse.status==Status.Completed)
+        {
+            await Payment.update({paymentstatus:'paid'},{
+                where:{
+                    pidx:pidx
+                }
+            })
+            res.status(200).json({
+                "message":"Payment verified sucessfully"
+            })
+        }
+        else{
+            res.status(200).json({
+                "message":"Payment not verified"
+            })
+        }
+    }
 
+// customter side starts
+
+    async getorder(req:authenticateuser,res:Response):Promise<void>
+    {
+        const uid=req.user?.id
+        const data=await Order.findAll({
+            where:{
+                userId:uid
+            },
+            include:[{
+                model:Payment
+            }]
+        })
+        if(data.length==0)
+        {
+            res.status(404).json({
+                "message":"No products selected"
+            }
+            )
+            return
+        }
+        res.status(200).json({
+            "message":"Order fetched sucessfully",
+            data:data
+        })
+    }
+
+    async getorderdetails(req:authenticateuser,res:Response):Promise<void>
+    {
+        const orderid=req.params.id
+        const data=await Orderdetails.findAll({
+            where:{
+                orderId:orderid
+            },
+            include:[{
+                model:Product,
+                attributes:['Productname','ProductDescription','Price']
+            }]
+        })
+        if(data.length==0)
+        {
+            res.status(404).json({
+                "message":"No products selected",
+                data:[]
+            }
+            )
+            return
+        }
+        res.status(200).json({
+            "message":"Order fetched sucessfully",
+            data:data
+        })
+    }
+
+    async cancelorder(req:authenticateuser,res:Response):Promise<void>
+    {
+        const orderid=req.params.id
+        const uid=req.user?.id
+        const data:any=await Order.findAll({
+            where:{
+                id:orderid,
+                userId:uid
+            }
+        })
+        if(data.length==0)
+        {
+            res.status(404).json({
+                "message":"No products available",
+                "data":[]
+            })
+            return
+        }
+        if(data.orderstatus==Orderstatus.ontheway||data.orderstatus==Orderstatus.processing)
+        {
+            res.status(200).json({
+                "message":"You cannot cancel order"
+            })
+            return
+        }
+        const response=await Order.update({orderstatus:Orderstatus.cancel},{
+            where:{
+                userId:uid,
+                id:orderid
+            }
+        })
+        res.status(200).json({
+            "message":"Order cancelled sucessfully",
+            data:response
+        })
+    }
+// customer side ends
+}
 export default new Ordercontroller
