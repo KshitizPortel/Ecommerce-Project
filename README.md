@@ -25,3 +25,7 @@ This is the ecommerce project, with features like adding ,removing and buying pr
 - Verified transactions
 - Retrieved the order details
 - Cancelled orders
+
+# Day 26 Update:
+- Updated order status, payment status
+- Implemented deletion of user orders.
