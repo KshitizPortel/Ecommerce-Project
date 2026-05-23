@@ -18,5 +18,14 @@ This is the ecommerce project, with features like adding ,removing and buying pr
 
 # Day 24 Update:
 - Created Order, Orderdetails and payment tables
-- Handles users order using ordercontroller
-- Integrate khalti payment gateway.
+- Handled user orders using ordercontroller
+- Integrated Khalti Payment Gateway.
+
+# Day 25 Update:
+- Verified transactions
+- Retrieved the order details
+- Cancelled orders
+
+# Day 26 Update:
+- Updated order status, payment status
+- Implemented deletion of user orders.
