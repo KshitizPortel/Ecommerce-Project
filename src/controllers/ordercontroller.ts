@@ -1,4 +1,4 @@
-import type {Response} from 'express'
+import type {Response,Request} from 'express'
 import type{authenticateuser} from '../middleware/authmiddleware.js'
 import type{OrderData} from '../types/orderdetails.js'
 import {PaymentMethod} from '../types/orderdetails.js'
@@ -6,11 +6,17 @@ import type{Khalti} from '../types/orderdetails.js'
 import type{verifytransactions} from '../types/orderdetails.js'
 import {Status} from '../types/orderdetails.js'
 import {Orderstatus} from '../types/orderdetails.js'
+import {PaymentStatus} from '../types/orderdetails.js'
 import Order from '../connection/models/order.js'
 import Orderdetails from '../connection/models/orderdetails.js'
 import Payment from '../connection/models/payment.js'
 import Product from '../connection/models/Product.js'
 import axios from 'axios'
+
+class extradata extends Order
+{
+    declare paymentid:string |null
+}
 class Ordercontroller
 {
     async createorder(req:authenticateuser,res:Response):Promise<void>
@@ -58,7 +64,7 @@ class Ordercontroller
             }
             const response=await axios.post("https://dev.khalti.com/api/v2/epayment/initiate/",data,{
                 headers:{
-                    'Authorization':'key 2545b7674eff41db9715e4c157015995'
+                    'Authorization':`key ${process.env.KHALTI_SCERET_KEY}`
                 }
             })
             console.log(response)
@@ -77,7 +83,6 @@ class Ordercontroller
         }
 
     }
-// to be done again from here,
     async verifytransaction(req:authenticateuser,res:Response):Promise<void>
     {
         const uid=req.user?.id
@@ -113,9 +118,7 @@ class Ordercontroller
             })
         }
     }
-
 // customter side starts
-
     async getorder(req:authenticateuser,res:Response):Promise<void>
     {
         const uid=req.user?.id
@@ -140,7 +143,6 @@ class Ordercontroller
             data:data
         })
     }
-
     async getorderdetails(req:authenticateuser,res:Response):Promise<void>
     {
         const orderid=req.params.id
@@ -167,7 +169,6 @@ class Ordercontroller
             data:data
         })
     }
-
     async cancelorder(req:authenticateuser,res:Response):Promise<void>
     {
         const orderid=req.params.id
@@ -205,5 +206,81 @@ class Ordercontroller
         })
     }
 // customer side ends
+
+// admin side starts
+
+    async orderstatus(req:Request,res:Response):Promise<void>
+    {
+        const orderid=req.params.id as string
+        const {status}=req.body
+        if(!status)
+        {
+            res.status(200).json({
+                "message":"Provide the status"
+            })
+            return
+        }
+        const data=await Order.update({orderstatus:status},{
+            where:{
+                id:orderid
+            }
+        })
+        res.status(200).json({
+            "message":"Order status updated sucessfully"
+        })
+    }
+
+    async paymentstatus(req:Request,res:Response):Promise<void>
+    {
+        const orderid=req.params.id as string
+        const {status}=req.body as {status:PaymentStatus}
+        if(!status)
+        {
+            res.status(200).json({
+                "message":"Provide payment status"
+            })
+            return
+        }
+        const data=await Order.findByPk(orderid)
+        const newextradata:extradata=data as extradata
+        const response=await Payment.update({paymentstatus:status},{
+            where:{
+                id:newextradata.paymentid
+            }
+        })
+        res.status(200).json({
+            "message":`Payment status of orderid ${orderid} updated sucessfully`
+        })
+    }
+    async deleteorder(req:Request,res:Response):Promise<void>
+    {
+        const orderid=req.params.id as string
+        const data=await Order.findByPk(orderid)
+        const newdata:extradata=data as extradata
+        if(data)
+        {
+        await Order.destroy({
+            where:{
+                id:orderid
+            }
+        })
+        await Orderdetails.destroy({
+            where:{
+                orderid:orderid
+            }
+        })
+        await Payment.destroy({
+            where:{
+                id:newdata.paymentid
+            }
+        })
+        res.status(200).json({
+            "message":"Order deleted sucessfully"
+        })
+        }
+
+    }
+
+// admin side ends
 }
 export default new Ordercontroller
