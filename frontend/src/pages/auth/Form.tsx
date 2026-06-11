@@ -1,38 +1,33 @@
-import { useState } from "react"
+import { Link } from "react-router-dom"
+import type { propsdata, userdatatype } from "./types"
+import { useState, type ChangeEvent, type FormEvent } from "react"
 
-type propsdata={
-  type:"login"|"register"
-}
-const Form = ({type}:propsdata) => {
-  const [formdata,setFormdata]=useState({
-    name:'',
-    email:'',
-    password:''
+const Form:React.FC<propsdata> = ({type,onsubmit}) => {
+
+  const [userdata, setUserdata] = useState<userdatatype>({
+    username:"",
+    email:"",
+    password:""
   })
-  const isregister=(type==='register')
 
-  const handlechange=(e:React.ChangeEvent<HTMLInputElement>)=>
+  const handlechange=(e:ChangeEvent<HTMLInputElement>)=>
   {
-    setFormdata({
-      ...formdata,
-      [e.target.name]:e.target.value
+    const {name,value}=e.target
+    setUserdata({
+      ...userdata,
+      [name]:value
     })
   }
 
-  const handlesubmit=(e:React.FormEvent)=>
+  const handlesubmit=(e:FormEvent<HTMLFormElement>)=>
   {
     e.preventDefault()
-    if(isregister)
-    {
-      console.log("registration form",formdata)
+    const Userdata={
+      username:userdata.username,
+      email:userdata.email,
+      password:userdata.password
     }
-    else{
-      console.log("login form")
-      console.log({
-        email:formdata.email,
-        password:formdata.password
-      })
-    }
+    onsubmit(Userdata)
   }
   return(
     <>
@@ -49,59 +44,79 @@ const Form = ({type}:propsdata) => {
         </div>
         <div className="w-1/2 p-8">
         <h1 className="text-3xl font-bold text-center">
-          {isregister?'Create Account':'Welcome Back'}</h1>
+          {
+            type==="register"?"Create an Account":"Welcome Back"
+          }
+         </h1>
         <p className="text-center text-gray-500 mt-2">
-          {isregister?'Join our ecommerce platform':'Login to continue'}</p>
+          {
+            type==="register"?"Join our ecommerce platform":"Login to continue"
+          }
+          </p>
         <form onSubmit={handlesubmit}>
-      <div className="mb-4">
-        {isregister &&(
-          <div>
-          <label className="mb-2 block text-sm font-semibold">Name</label>
-          <input
-           className="w-full px-3 py-2 border border-gray-400 outline-none  rounded-lg focus:ring-1 focus:ring-blue-500 focus:border-transparent"
-           name="name"
-           value={formdata.name}
-           onChange={handlechange}
-           type="text" placeholder="Enter your name"
-          ></input>
-          </div>
-        )}
-        </div>
-     <div className="mb-4">
-          <label className="mb-2 block text-sm font-semibold">Email</label>
-          <input
-           className="w-full px-3 py-2 border border-gray-400 outline-none  rounded-lg focus:ring-1 focus:ring-blue-500 focus:border-transparent"
-           name="email"
-           value={formdata.email}
-           onChange={handlechange}
-           type="email" placeholder="Enter your email"
-          ></input>
-        </div>
-     <div className="mb-4">
-          <label className="mb-2 block text-sm font-semibold">Password</label>
-          <input
-           className="w-full px-3 py-2 border border-gray-400 outline-none  rounded-lg focus:ring-1 focus:ring-blue-500 focus:border-transparent"
-           name="password"
-           value={formdata.password}
-           onChange={handlechange}
-           type="password" placeholder="Enter your password"
-          ></input>
-        </div>
-      <button
-        className="w-full text-2xl font-semibold bg-blue-600 text-white rounded-lg py-1 hover:bg-blue-700 transition cursor-pointer" 
-        type="submit">
-            {isregister?'Register':'Login'}
-        </button>
+            <div className="mb-4">
+              {
+                type==="register"&&(
+                  <div>
+                  <label className="mb-2 block text-sm font-semibold">Name</label>
+                  <input
+                  className="w-full px-3 py-2 border border-gray-400 outline-none  rounded-lg focus:ring-1 focus:ring-blue-500 focus:border-transparent"
+                  name="username"
+                  value={userdata.username}
+                  onChange={handlechange}
+                  type="text" placeholder="Enter your name"
+                  ></input>
+                  </div>
+                )
+              }
+              </div>
+          <div className="mb-4">
+                <label className="mb-2 block text-sm font-semibold">Email</label>
+                <input
+                className="w-full px-3 py-2 border border-gray-400 outline-none  rounded-lg focus:ring-1 focus:ring-blue-500 focus:border-transparent"
+                name="email"
+                value={userdata.email}
+                onChange={handlechange}
+                type="email" placeholder="Enter your email"
+                ></input>
+              </div>
+          <div className="mb-4">
+                <label className="mb-2 block text-sm font-semibold">Password</label>
+                <input
+                className="w-full px-3 py-2 border border-gray-400 outline-none  rounded-lg focus:ring-1 focus:ring-blue-500 focus:border-transparent"
+                name="password"
+                value={userdata.password}
+                onChange={handlechange}
+                type="password" placeholder="Enter your password"
+                ></input>
+              </div>
+            <button
+              className="w-full text-2xl font-semibold bg-blue-600 text-white rounded-lg py-1 hover:bg-blue-700 transition cursor-pointer" 
+              type="submit">
+                {
+                  type==="register"?"Sign In":"Login"
+                }
+              </button>
         </form>
             <div>
-                {isregister &&(
                     <div>
                         <p className="mt-4 text-center text-sm font-semibold text-gray-500">
-                        Already have an account {"  "}
-                        <span className="text-blue-600 cursor-pointer">Login</span>
+                          {
+                            type==="register"?
+                            (
+                              <>
+                          Already have an account {"  "}
+                          <Link to="/login"><span className="text-blue-600 cursor-pointer">Login</span></Link>
+                              </>
+                            ):
+                            (
+                              <>
+                              <Link to="/register"><span className="text-blue-600 cursor-pointer">Sign up to continue</span></Link>
+                              </>
+                            )
+                          }
                         </p>
                     </div>
-                )}
             </div>
         
         </div>

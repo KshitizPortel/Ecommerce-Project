@@ -25,3 +25,4 @@ dist-ssr
 
 #text files:
 text.txt
+src/pages/auth/newform.tsx

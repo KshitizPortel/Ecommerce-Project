@@ -9,3 +9,5 @@ const store=configureStore({
 
 export default store
 
+export type Appdispatch=typeof store.dispatch
+export type Appselector=ReturnType<typeof store.getState>

@@ -1,10 +1,12 @@
 import {createSlice} from '@reduxjs/toolkit'
 import type{PayloadAction} from '@reduxjs/toolkit'
 import API from '../http'
+import { Status } from '../globals/types/types'
+import axios from 'axios'
 
 interface Register
 {
-    name:string,
+    username:string,
     email:string,
     password:string
 }
@@ -20,7 +22,6 @@ interface User
     password:string,
     token:string
 }
-type Status="sucess"|"error"|"loading"|""
 interface authuser
 {
     user:User,
@@ -28,7 +29,7 @@ interface authuser
 }
 const initialState:authuser={
     user:{} as User,
-    status:""
+    status:Status.LOADING
 }
 const authslice=createSlice({
     name:'auth',
@@ -39,29 +40,37 @@ const authslice=createSlice({
         },
         setStatus(state:authuser,action:PayloadAction<Status>){
             state.status=action.payload
+        },
+        resetStatus(state:authuser)
+        {
+            state.status=Status.LOADING
+        },
+        setToken(state:authuser,action:PayloadAction<string>)
+        {
+            state.user.token=action.payload
         }
     }
 })
-export const {setUser,setStatus}=authslice.actions
+export const {setUser,setStatus,resetStatus,setToken}=authslice.actions
 export default authslice.reducer
 
 export function register(data:Register)
 {
     return async function registerThunk(dispatch:any)
     {
-        dispatch(setStatus("loading"))
+        dispatch(setStatus(Status.LOADING))
         try {
             const response=await API.post("register",data)
-            if(response.status==201)
+            if(response.status==200)
             {
-                dispatch(setStatus("sucess"))
+                dispatch(setStatus(Status.SUCESS))
             }
             else{
-                dispatch(setStatus("error"))
+                dispatch(setStatus(Status.ERROR))
             }
         } 
         catch (error) {
-            dispatch(setStatus("error"))
+            dispatch(setStatus(Status.ERROR))
         }
     }
 }
@@ -70,20 +79,23 @@ export function login(data:Login)
 {
     return async function loginThunk(dispatch:any)
     {
-        dispatch(setStatus("loading"))
+        dispatch(setStatus(Status.LOADING))
         try {
             const response=await API.post("login",data)
+            const {jwtdata}=response.data
             if(response.status==200)
             {
-                dispatch(setStatus("sucess"))
+                dispatch(setStatus(Status.SUCESS))
+                dispatch(setToken(jwtdata))
+                localStorage.setItem("token",jwtdata)
             }
             else{
-                dispatch(setStatus("error"))
+                dispatch(setStatus(Status.ERROR))
             }
 
         } 
         catch (error) {
-            dispatch("error")
+            dispatch(Status.ERROR)
         }
     }
 }
