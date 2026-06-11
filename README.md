@@ -29,3 +29,9 @@ This is the ecommerce project, with features like adding ,removing and buying pr
 # Day 26 Update:
 - Updated order status, payment status
 - Implemented deletion of user orders.
+
+# Day 27 Update: Frontend Starts
+- Learned about store, slices, reducers and actions
+- Created Redux toolkit slice and configured store
+- Created Registration and Login form passing props to reusable form component
+
