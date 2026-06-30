@@ -2,7 +2,7 @@ import {createSlice} from '@reduxjs/toolkit'
 import type{PayloadAction} from '@reduxjs/toolkit'
 import API from '../http'
 import { Status } from '../globals/types/types'
-import axios from 'axios'
+// import axios from 'axios'
 
 interface Register
 {
@@ -20,7 +20,7 @@ interface User
     username:string,
     email:string,
     password:string,
-    token:string
+    token:string|null
 }
 interface authuser
 {
@@ -48,10 +48,14 @@ const authslice=createSlice({
         setToken(state:authuser,action:PayloadAction<string>)
         {
             state.user.token=action.payload
+        },
+        resetToken(state:authuser)
+        {
+            state.user.token=""
         }
     }
 })
-export const {setUser,setStatus,resetStatus,setToken}=authslice.actions
+export const {setUser,setStatus,resetStatus,setToken,resetToken}=authslice.actions
 export default authslice.reducer
 
 export function register(data:Register)

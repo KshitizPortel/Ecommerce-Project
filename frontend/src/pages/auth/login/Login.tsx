@@ -12,7 +12,7 @@ const Login = () => {
   const {status}=useAppselector((state)=>state.auth)
   const handlelogin=(data:userlogintype)=>
   {
-    console.log(data)
+    // console.log(data)
     dispatch(login(data))
   }
   useEffect(()=>

@@ -4,6 +4,7 @@ import {Provider} from 'react-redux'
 import Register from './pages/auth/register/Register.tsx'
 import Login from './pages/auth/login/Login.tsx'
 import Home from './pages/home/Home.tsx'
+import Singleproduct from './pages/singlepage/Singleproduct.tsx'
 function App()
 {
   return(
@@ -14,6 +15,7 @@ function App()
           <Route path='/' element={<Home/>}></Route>
           <Route path='/register' element={<Register/>}></Route>
           <Route path='/login' element={<Login/>}></Route>
+          <Route path='/products/:id' element={<Singleproduct/>}></Route>
         </Routes>
       </BrowserRouter>
     </Provider>

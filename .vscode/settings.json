@@ -1,0 +1,10 @@
+{
+    "js/ts.tsdk.path": "node_modules\\typescript\\lib",
+    "python-envs.pythonProjects": [
+        {
+            "path": "frontend/src/pages/home",
+            "envManager": "ms-python.python:venv",
+            "packageManager": "ms-python.python:pip"
+        }
+    ]
+}

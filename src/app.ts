@@ -10,12 +10,17 @@ import catergoryclass from './controllers/catergorycontroller.js'
 import catergoryroute from './routes/catergoryroute.js'
 import cartroute from './routes/cartroute.js'
 import orderroute from './routes/orderroute.js'
+import cors from 'cors'
 
 const app:Application=express()
 app.use(express.json())
 
+app.use(cors({
+    origin:"*"
+}))
+
 // using the routes:
-app.use("",userroute)               // http://localhost/register
+app.use("",userroute)               // http://localhost:3000/register
 app.use("/admin/product",productroute)
 app.use("/admin/catergory",catergoryroute)
 app.use("/customer/cart",cartroute)
