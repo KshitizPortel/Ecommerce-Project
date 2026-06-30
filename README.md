@@ -35,3 +35,16 @@ This is the ecommerce project, with features like adding ,removing and buying pr
 - Created Redux toolkit slice and configured store
 - Created Registration and Login form passing props to reusable form component
 
+# Day 28 Update:
+-  Connect frontend and backend
+-  Allow user to register and redirects them to login page.
+
+# Day 29 Update:
+-  Explored Redux Toolkit in more depth, and connect with React
+-  Handled login and logout efficiently
+-  Fetched data from backend, and displayed in browser.
+
+# Day 30 Update:
+-  Created product slice in Redux Toolkit and stored product information
+-  Fetched single product data , and display in separate webpage.
+  
