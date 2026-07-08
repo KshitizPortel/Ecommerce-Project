@@ -77,7 +77,7 @@ class Productcontroller
     async getsingleproduct(req:Request,res:Response):Promise<void>
     {
         const id=req.params.id
-        const data=Product.findAll(
+        const data=await Product.findOne(
             {
                 where:{
                     id:id
@@ -89,7 +89,7 @@ class Productcontroller
                     },
                     {
                         model:Catergory,
-                        attributes:['Catergory']
+                        attributes:['CatergoryName']
                     }
                 ]
             })

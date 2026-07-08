@@ -1,5 +1,3 @@
-// import React from 'react'
-
 import { Link, useNavigate } from "react-router-dom"
 import { useAppdispatch, useAppselector } from "../../../store/hooks"
 import { useEffect, useState } from "react"
@@ -25,12 +23,15 @@ const Header = () => {
         navigate("/login")
         console.log(window.location.pathname)
     }
+    const {item,status}=useAppselector((state)=> state.carts)
+    console.log(item.length)
   return (
     <div>
         <header className="bg-orange-600 text-white flex items-center h-16 px-10 justify-between">
             {/* logo */}
-            <div className="text-xl font-bold cursor-pointer"
-            >Logo</div>
+           <Link to='/'>
+            <div className="text-xl font-bold cursor-pointer">Logo</div>
+           </Link>
 
             {/* middle */}
             <div className="flex flex-1 justify-center">
@@ -64,6 +65,11 @@ const Header = () => {
                     ):
                     (
                         <>
+                        <Link to="/cart">
+                        <button
+                        className="border-2 px-6 py-1 rounded-2xl cursor-pointer" 
+                        type="button">Cart<sup>{item.length}</sup></button>
+                        </Link>
                         <button
                         onClick={handlelogout}
                         className="border-2 px-6 py-1 rounded-2xl cursor-pointer" 

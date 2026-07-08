@@ -1,7 +1,7 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import { Status } from "../globals/types/types";
-import type { Product, Productstate } from "../types/types";
-import API from "../http";
+import type { Product, Productstate } from "../types/producttypes";
+import {API} from "../http";
 import type { Appdispatch, RootState } from "./store";
 
 const initialstate:Productstate=
@@ -26,6 +26,7 @@ const productslice=createSlice({
         setSingleproduct(state:Productstate,action:PayloadAction<Product>)
         {
             state.singleproduct=action.payload
+            console.log(action.payload)
         }
     }
 })
@@ -61,7 +62,7 @@ export function fetchproductbyid(productid:string)
     return async function fetchproductbyid(dispatch:Appdispatch,getState:()=>RootState)
     {
         const state=getState()
-        const existingstate=state.products.product.find((product:Product)=>
+        const existingproduct=state.products.product.find((product:Product)=>
         {
             if(productid==product.id)
             {
@@ -71,9 +72,9 @@ export function fetchproductbyid(productid:string)
                 return false
             }
         })
-        if(existingstate)
+        if(existingproduct)
         {
-            dispatch(setSingleproduct(existingstate))
+            dispatch(setSingleproduct(existingproduct))
             dispatch(setStatus(Status.SUCESS))
         }
         else{
@@ -85,6 +86,8 @@ export function fetchproductbyid(productid:string)
                     const {data}=response.data
                     dispatch(setSingleproduct(data))
                     dispatch(setStatus(Status.SUCESS))
+                    console.log(response.data)
+                    console.log(data)
                 }
                 else
                 {

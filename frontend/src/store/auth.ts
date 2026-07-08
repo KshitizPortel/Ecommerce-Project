@@ -1,6 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit'
 import type{PayloadAction} from '@reduxjs/toolkit'
-import API from '../http'
+import {API} from '../http'
 import { Status } from '../globals/types/types'
 // import axios from 'axios'
 

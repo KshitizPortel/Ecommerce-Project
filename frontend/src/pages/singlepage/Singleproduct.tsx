@@ -5,11 +5,13 @@ import Header from "../../globals/components/home/Header"
 import { useAppdispatch, useAppselector } from '../../store/hooks'
 import { useParams } from 'react-router-dom'
 import { fetchproductbyid } from '../../store/productslice'
+import { addtocart } from '../../store/cartslice'
 
 const Singleproduct = () => {
     const {id}=useParams()
     const dispatch=useAppdispatch()
     const {status,singleproduct}=useAppselector((state)=>state.products)
+    console.log(singleproduct)
 
         useEffect(()=>
         {
@@ -30,6 +32,15 @@ const Singleproduct = () => {
         }
     }
     console.log(status)
+
+    const handlecart=()=>
+    {
+        console.log("hello")
+        if(id)
+        {
+            dispatch(addtocart(id))
+        }
+    }
   return (
     <>
     <Header/>
@@ -42,7 +53,7 @@ const Singleproduct = () => {
             </div>
             <div className="flex max-w-full flex-col gap-6 p-5 flex-start">
                 <h1 className="font-bold text-3xl">Product Name: {singleproduct?.ProductName}</h1>
-                <p className="font-semibold text-2xl">Catergory:{singleproduct?.Catergory.CatergoryName}</p>
+                <p className="font-semibold text-2xl">Catergory:{singleproduct?.Catergory?.CatergoryName}</p>
                 <p className="font-semibold text-2xl">price:{singleproduct?.Price}</p>
                 <div className="flex items-center gap-3">
                     <p className="font-semibold text-2xl">Quantity:</p>
@@ -69,6 +80,7 @@ const Singleproduct = () => {
                     className="font-semibold bg-orange-500 text-white p-3 rounded cursor-pointer"
                     >Buy Now</button>
                     <button
+                    onClick={handlecart}
                     className="font-semibold bg-orange-700 text-white p-3 rounded cursor-pointer"
                     >Add to cart</button>
                 </div>

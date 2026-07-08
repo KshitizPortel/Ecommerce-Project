@@ -23,16 +23,25 @@ class Cart{
             await cartitem.save()
         }
         else{
-            const cartitem=await cart.create({
+            const addcartitem=await cart.create({
                 Userid:userid,
                 Productid:productid,
                 Quantity:quantity
             })
-            res.status(200).json({
-                "message":"Product added to cart"
-            })
         }
-    }
+            const data=await cart.findAll({
+                where:{
+                    Userid:userid
+                },
+                include:[{
+                    model:Product
+                }]
+            })
+            res.status(200).json({
+                "message":"Product added to cart",
+                data:data
+        })
+        }
 
     async getallitems(req:authenticateuser,res:Response):Promise<void>
     {
@@ -67,11 +76,11 @@ class Cart{
 
     async deletecart(req:authenticateuser,res:Response):Promise<void>
     {
-        const cartid=req.params.id
+        const productid=req.params.id
         const uid=req.user?.id
         const data=await cart.findOne({
             where:{
-                id:cartid
+                Productid:productid
             }
         })
         if(!data)
@@ -83,8 +92,8 @@ class Cart{
         else{
             const deletedata=await cart.destroy({
                 where:{
-                    userid:uid,
-                    id:cartid
+                    Userid:uid,
+                    Productid:productid
                 }
             })
             res.status(200).json({
@@ -113,8 +122,8 @@ class Cart{
         else{
             const updatedata=await cart.update({Quantity:quantity},{
                 where:{
-                    id:cartid,
-                    userid:uid
+                    Productid:cartid,
+                    Userid:uid
                 }
             })
             res.status(200).json({

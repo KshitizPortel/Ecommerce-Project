@@ -1,6 +1,6 @@
 // import watch from '../../assets/watch.jpg'
 import { Link } from 'react-router-dom'
-import type { Product } from '../../types/types'
+import type { Product } from '../../types/producttypes'
 interface Cardprops
 {
   data:Product

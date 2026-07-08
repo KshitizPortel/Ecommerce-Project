@@ -61,7 +61,6 @@ class Authenticateuser
         return(req:authenticateuser,res:Response,next:Function)=>
         {
             let userrole=req.user?.role as Role
-            console.log(userrole)
             if(!roles.includes(userrole))
             {
                 res.status(404).json(
