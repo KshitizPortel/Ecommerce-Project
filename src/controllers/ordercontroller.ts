@@ -12,6 +12,7 @@ import Orderdetails from '../connection/models/orderdetails.js'
 import Payment from '../connection/models/payment.js'
 import Product from '../connection/models/Product.js'
 import axios from 'axios'
+import cart from '../connection/models/cart.js'
 
 class extradata extends Order
 {
@@ -42,13 +43,19 @@ class Ordercontroller
             paymentid:paymentdata.id,
             userId:uid
         })
-        
+        let responsedata;
         for(const item of items)
         {
-            await Orderdetails.create({
+            responsedata=await Orderdetails.create({
                 Quantity:item.quantity,
                 productId:item.productid,
                 orderId:orderdata.id
+            })
+             const deletedata=await cart.destroy({
+                where:{
+                    Userid:uid,
+                    Productid:item.productid
+                }
             })
         }
 
@@ -73,12 +80,14 @@ class Ordercontroller
             paymentdata.save()
             res.status(200).json({
                 "message":"order placed sucessfully",
-                "url":khaltiresponse.payment_url
+                "url":khaltiresponse.payment_url,
+                data:responsedata
             })
         }
         else{
             res.status(200).json({
-                "message":"Order placed sucessfully"
+                "message":"Order placed sucessfully",
+                data:responsedata
             })
         }
 

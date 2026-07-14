@@ -3,14 +3,12 @@ import { Status } from "../globals/types/types";
 import type { Product, Productstate } from "../types/producttypes";
 import {API} from "../http";
 import type { Appdispatch, RootState } from "./store";
-
 const initialstate:Productstate=
 {
     product:[],
     status:Status.LOADING,
     singleproduct:null
 }
-
 const productslice=createSlice({
     name:'product',
     initialState:initialstate,
@@ -30,7 +28,6 @@ const productslice=createSlice({
         }
     }
 })
-
 export const {setProduct,setStatus,setSingleproduct}=productslice.actions
 export default productslice.reducer
 
@@ -56,7 +53,6 @@ export function fetchproducts()
         }
     }
 }
-
 export function fetchproductbyid(productid:string)
 {
     return async function fetchproductbyid(dispatch:Appdispatch,getState:()=>RootState)

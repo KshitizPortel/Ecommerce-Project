@@ -2,6 +2,7 @@ import watch  from "../../assets/watch.jpg"
 import Header from "../../globals/components/home/Header"
 import { useAppdispatch, useAppselector } from "../../store/hooks"
 import { deletecartitem, updatecartitem } from "../../store/cartslice"
+import { Link } from "react-router-dom"
 
 const Cart = () => {
   const dispatch=useAppdispatch()
@@ -77,9 +78,11 @@ const Cart = () => {
             <span className="text-sm font-semibold text-gray-800">Including VAT</span>
           </div>
         </div>
-        <button
-        className="bg-blue-600 cursor-pointer p-2 rounded text-white font-semibold w-full mt-4" 
-        type="submit">Check out</button>
+        <Link to="/checkout">
+          <button
+          className="bg-blue-600 cursor-pointer p-2 rounded text-white font-semibold w-full mt-4" 
+          type="submit">Check out</button>
+          </Link>
       </div>
       </div>
 
