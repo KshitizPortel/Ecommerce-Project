@@ -47,4 +47,19 @@ This is the ecommerce project, with features like adding ,removing and buying pr
 # Day 30 Update:
 -  Created product slice in Redux Toolkit and stored product information
 -  Fetched single product data , and display in separate webpage.
-  
+
+# Day 31 Update:
+-  Created cart page, fetched cart data from backend
+-  Added remove item and update quantity functionality
+-  Calculated total price of selected products.
+
+# Day 32 Update:
+-  Created checkout page, fetched data from backend
+-  Created form for user information
+-  Added Payment options: COD and Khalti.
+
+# Day 33 Update:
+-  Placed user order, sending user data to backend
+-  And, redirected to home page
+-  Integrated Khalti payment. 
+
