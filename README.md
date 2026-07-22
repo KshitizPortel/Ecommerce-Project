@@ -63,3 +63,14 @@ This is the ecommerce project, with features like adding ,removing and buying pr
 -  And, redirected to home page
 -  Integrated Khalti payment. 
 
+# Day 34 Update:
+-  Created order page
+-  Fetched data from backend and display in structured way.
+
+# Day 35 Update:
+-  Created separate page to display individual order details
+-  Fetched data and displayed in webpage.
+
+# Day 36 Update:
+-  Added fitering functionality on order page.
+-  Implemented filtering based on cost, orderid and other attributes.
