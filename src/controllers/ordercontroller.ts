@@ -161,8 +161,18 @@ class Ordercontroller
             },
             include:[{
                 model:Product,
-                attributes:['Productname','ProductDescription','Price']
-            }]
+                attributes:['Productname','ProductDescription','Price','Stock']
+            },
+            {
+                model:Order,
+                include:[
+                    {
+                        model:Payment
+                    }
+                ]
+            }
+        
+        ]
         })
         if(data.length==0)
         {

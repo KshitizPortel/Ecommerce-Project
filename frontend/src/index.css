@@ -1,1 +1,16 @@
 @import "tailwindcss";
+
+table,th,td
+{
+    /* border:1px solid gray; */
+    padding:6px;
+    text-align:center;
+
+}
+table{
+    border-collapse: collapse;
+    border-radius:10px;
+}
+td{
+    border-bottom:1px solid rgb(224, 223, 223);
+}

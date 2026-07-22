@@ -64,7 +64,7 @@ const Checkout = () => {
         if(status==Status.SUCESS)
         {
             alert("Your order is placed sucessfully")
-            navigate("/")
+            // navigate("/")
         }
     },[status,dispatch])
 

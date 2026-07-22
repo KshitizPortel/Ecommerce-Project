@@ -6,7 +6,9 @@ import Login from './pages/auth/login/Login.tsx'
 import Home from './pages/home/Home.tsx'
 import Singleproduct from './pages/singlepage/Singleproduct.tsx'
 import Cart from './pages/singlepage/Cart.tsx'
-import Checkout from './pages/singlepage/checkout/checkout.tsx'
+import Checkout from './pages/singlepage/checkout/Checkout.tsx'
+import Myorder from './pages/singlepage/myorders/Myorder.tsx'
+import Myorderdetails from './pages/singlepage/myorders/Myorderdetails.tsx'
 function App()
 {
   return(
@@ -20,6 +22,8 @@ function App()
           <Route path='/products/:id' element={<Singleproduct/>}></Route>
           <Route path='/cart/' element={<Cart/>}></Route>
           <Route path='/checkout/' element={<Checkout/>}></Route>
+          <Route path='/myorders/' element={<Myorder/>}></Route>
+          <Route path='/myorders/:id' element={<Myorderdetails/>}></Route>
         </Routes>
       </BrowserRouter>
     </Provider>
