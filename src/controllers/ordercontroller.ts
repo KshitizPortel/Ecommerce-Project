@@ -152,6 +152,24 @@ class Ordercontroller
             data:data
         })
     }
+    async getallorders(req:authenticateuser,res:Response):Promise<void>
+    {
+        const data=await Order.findAll({
+            include:[{
+                model:Payment
+            }]
+        })
+        if(data.length==0)
+        {
+            res.status(404).json({
+                "message":"No products found"
+            })
+        }
+        res.status(200).json({
+            "message":"Product fetched sucessfully",
+            data:data
+        })
+    }
     async getorderdetails(req:authenticateuser,res:Response):Promise<void>
     {
         const orderid=req.params.id
