@@ -8,7 +8,7 @@ const router=express.Router()
 router.route("/")
 .post(Authenticateuser.isAuthenticated,errorhandler(Ordercontroller.createorder))
 .get(Authenticateuser.isAuthenticated,errorhandler(Ordercontroller.getorder))
-.get(Authenticateuser.isAuthenticated,errorhandler(Ordercontroller.getallorder))
+.get(Authenticateuser.isAuthenticated,errorhandler(Ordercontroller.getallorders))
 
 router.route("/verify/").post(Authenticateuser.isAuthenticated,errorhandler(Ordercontroller.verifytransaction))
 

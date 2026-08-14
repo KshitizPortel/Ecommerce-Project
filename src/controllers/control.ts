@@ -2,6 +2,7 @@ import type {Request,Response} from 'express'
 import User from '../connection/models/model.js'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
+import type { authenticateuser } from '../middleware/authmiddleware.js'
 
 class AuthenticateUser{
     public static async registeruser(req:Request,res:Response):Promise<void>{
