@@ -10,4 +10,7 @@ router.route('/register')
 router.route('/login')
 .post(errorhandler(AuthenticateUser.loginuser))
 
+router.route('/users')
+.get(authmiddleware.isAuthenticated,authmiddleware.restrictTo(Role.Admin),errorhandler(AuthenticateUser.fetchusers ))
+
 export default router

@@ -80,5 +80,23 @@ class AuthenticateUser{
             data:userresponse,
             jwtdata:jwtdata
         })
-    }}
+    }
+  public static async fetchusers(req:authenticateuser,res:Response):Promise<void>
+    {
+        const response=await User.findAll()
+        if(response.length==0)
+        {
+            res.status(404).json(
+                {
+                    "message":"Users not found"
+                }
+            )
+            return
+        }
+        res.status(200).json({
+            "message":"user fetched sucessfully",
+            data:response
+        })
+    }
+}
 export default AuthenticateUser

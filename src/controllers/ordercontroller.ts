@@ -164,6 +164,7 @@ class Ordercontroller
             res.status(404).json({
                 "message":"No products found"
             })
+            return
         }
         res.status(200).json({
             "message":"Product fetched sucessfully",
