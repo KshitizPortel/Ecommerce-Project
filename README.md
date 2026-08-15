@@ -74,3 +74,10 @@ This is the ecommerce project, with features like adding ,removing and buying pr
 # Day 36 Update:
 -  Added fitering functionality on order page.
 -  Implemented filtering based on cost, orderid and other attributes.
+
+# Day 37 Update:
+-  Created the type for Product, user and order data.
+
+# Day 38 Update:
+-  Created slice to fetch product, user and order details
+-  Also, added to delete product and fetch single product.
